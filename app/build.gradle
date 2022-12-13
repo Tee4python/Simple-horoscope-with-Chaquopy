@@ -1,0 +1,79 @@
+plugins {
+    id 'com.android.application'
+    id 'com.chaquo.python'
+}
+
+android {
+    namespace 'com.learningapi.horoscope'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.learningapi.horoscope"
+
+        // giving source folder of the python script that we will use in this app.
+        sourceSets{
+            main{
+                python {
+                    srcDirs =["src/main/python"]
+                }
+            }
+        }
+        // end
+
+        minSdk 23
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        // adding the abiFilters setting to specify which ABIs you want the app to support
+        ndk {
+            abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
+        }
+        // end
+
+        //  setting our app’s Python version and point to the python.exe to be used.
+        python {
+
+            buildPython "/usr/local/bin/python"
+            buildPython "python3"
+        }
+        python {
+            pip {
+                // A requirement specifier, with or without a version number:
+                install "bs4"
+//                install "aiohttp"
+                install "requests"
+//                install "asyncio"
+                install "grequests"
+//                install "warnings"
+            }
+        }
+    }
+    // end
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    dependenciesInfo {
+        includeInApk true
+        includeInBundle true
+    }
+}
+
+dependencies {
+
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+}
